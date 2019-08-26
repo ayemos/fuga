@@ -2,25 +2,26 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.1
+      - image: circleci/python:3.6.8
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
+            - v1-dependencies-{{ checksum "setup.py" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run:
-          name: install dependencies
+          name: install fuga
           command: |
             python3 -m venv venv
+            pip install -U pip setuptools
             . venv/bin/activate
             python setup.py install
       - save_cache:
           paths:
             - ./venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
+          key: v1-dependencies-{{ checksum "setup.py" }}
       - run:
           name: run tests
           command: |
