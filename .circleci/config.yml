@@ -15,8 +15,8 @@ jobs:
           name: install fuga
           command: |
             python3 -m venv venv
-            pip install -U pip setuptools
             . venv/bin/activate
+            pip install -U pip setuptools
             python setup.py install
       - save_cache:
           paths:
